@@ -1,5 +1,6 @@
 let alunoSelecionado = null;
 
+// funcao para cadstrar novo aluno
 async function cadastrarAluno() {
     const formCadastrar = document.getElementById("form-aluno");
     const messageCadastrar = document.getElementById("messageCadastrar");
@@ -45,9 +46,10 @@ async function cadastrarAluno() {
     })
 }
 
+// funcao para carregar a tabela de alunos
 async function carregarAlunos() {
     try {
-        const response = await fetch("http://localhost:8080/alunos", {
+        const response = await fetch("/alunos", {
             method: "GET"
         });
 
@@ -72,13 +74,32 @@ async function carregarAlunos() {
                 <td>${aluno.email}</td>
                 <td>${aluno.telefone}</td>
                 <td>
-                    <button>Deletar</button>
-                    <button>Editar</button>
                 </td>
             `;
 
+            const tdAcoes = tr.querySelector("td:last-child");
+
+            const btnExcluir = document.createElement("button");
+            btnExcluir.textContent = "Deletar";
+            btnExcluir.classList.add("btn");
+            btnExcluir.classList.add("btn-small");
+            btnExcluir.classList.add("btn-danger");
+
+            btnExcluir.addEventListener("click", () => {
+                abrirModalExclusao(aluno);
+            });
+
+            const btnEditar = document.createElement("button");
+            btnEditar.textContent = "Editar";
+            btnEditar.classList.add("btn");
+            btnEditar.classList.add("btn-small");
+            btnEditar.classList.add("btn-primary");
+
+            tdAcoes.appendChild(btnExcluir);
+            tdAcoes.appendChild(btnEditar);
+
             alunosFragment.appendChild(tr);
-        })
+        });
 
         tbodyAlunos.appendChild(alunosFragment);
     } catch (error) {
@@ -103,7 +124,36 @@ function fecharModalExclusao() {
     modal.hidden = true;
 }
 
+async function excluirAluno() {
+    if (!alunoSelecionado) return;
+
+    try {
+
+        const response = await fetch(`/alunos/${alunoSelecionado.id}`, {
+            method: "DELETE"
+        });
+
+        if (!response.ok) {
+            throw new Error("Erro ao excluir aluno");
+        }
+
+        fecharModalExclusao();
+
+        await carregarAlunos();
+
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+function configurarModal() {
+    document.getElementById("btn-cancelar-exclusao").addEventListener("click", fecharModalExclusao);
+    document.getElementById("btn-confirmar-exclusao").addEventListener("click", excluirAluno);
+}
+
+
 document.addEventListener("DOMContentLoaded", () => {
     carregarAlunos();
     cadastrarAluno();
+    configurarModal();
 })
