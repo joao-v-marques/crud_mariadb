@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD de Alunos MariaDB</title>
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+</head>
+<body>
+    <header class="app-header">
+        <div class="container">
+            <h1>Gerenciamento de Alunos</h1>
+            <p class="subtitle">CRUD com Spring Boot, MariaDB e JavaScript</p>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <!-- ===================== FORMULÁRIO (CADASTRO / EDIÇÃO) ===================== -->
+        <section class="card" id="form-section">
+            <h2 id="form-title">Cadastrar novo aluno</h2>
+
+            <form id="form-aluno" autocomplete="off">
+                <!-- Campo oculto utilizado para armazenar o id_aluno durante uma edição -->
+                <input type="hidden" id="id_aluno" name="id_aluno">
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="nome">Nome completo</label>
+                        <input type="text" id="nome" name="nome" placeholder="Ex: João da Silva" required maxlength="120">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="data_nascimento">Data de nascimento</label>
+                        <input type="date" id="data_nascimento" name="data_nascimento" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">E-mail</label>
+                        <input type="email" id="email" name="email" placeholder="Ex: joao@email.com" required maxlength="150">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="telefone">Telefone</label>
+                        <input type="tel" id="telefone" name="telefone" placeholder="Ex: (35) 99999-0000" required maxlength="20">
+                    </div>
+                </div>
+
+                <p id="messageCadastrar"></p>
+
+                <div class="form-actions">
+                    <button type="submit" id="btn-salvar" class="btn btn-primary">Salvar aluno</button>
+                    <button type="button" id="btn-cancelar" class="btn btn-secondary" hidden>Cancelar edição</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- ===================== LISTAGEM ===================== -->
+        <section class="card" id="list-section">
+            <div class="list-header">
+                <h2>Alunos cadastrados</h2>
+            </div>
+
+            <div class="table-wrapper">
+                <table id="tabela-alunos">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Data de nascimento</th>
+                            <th>E-mail</th>
+                            <th>Telefone</th>
+                            <th class="col-acoes">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabela-alunos-body">
+                        <!-- alunos preenchidos pelo js -->
+                        <tr class="empty-row">
+                            <td colspan="6">Nenhum aluno cadastrado.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- modal de confirmacao de exclusao -->
+    <div id="modal-confirmacao" class="modal" hidden>
+        <div class="modal-content">
+            <h3>Confirmar exclusão</h3>
+            <p>Tem certeza de que deseja excluir o aluno <strong id="modal-nome-aluno">--</strong>?</p>
+            <div class="modal-actions">
+                <button type="button" id="btn-confirmar-exclusao" class="btn btn-danger">Excluir</button>
+                <button type="button" id="btn-cancelar-exclusao" class="btn btn-secondary">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <script th:src="@{/js/home.js}"></script>
+</body>
+</html>
