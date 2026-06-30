@@ -24,4 +24,13 @@ public class AlunoService {
     public Aluno cadastrar(Aluno aluno) {
         return repository.save(aluno);
     }
+
+    // excluir aluno
+    public void deletar(Long id) {
+        if (!repository.existsById(id)) {
+            throw new RuntimeException("Aluno não encontrado com o id: " + id);
+        }
+
+        repository.deleteById(id);
+    }
 }

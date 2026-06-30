@@ -27,4 +27,10 @@ public class AlunoController {
     public Aluno cadastrar(@RequestBody Aluno aluno) {
         return service.cadastrar(aluno);
     }
+
+    // excluir aluno
+    @DeleteMapping("/{id}")
+    public void deletar(@PathVariable Long id) {
+        service.deletar(id);
+    }
 }
