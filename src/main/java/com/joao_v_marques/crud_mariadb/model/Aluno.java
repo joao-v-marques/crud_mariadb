@@ -1,23 +1,13 @@
 package com.joao_v_marques.crud_mariadb.model;
 
-import jakarta.persistence.*;
-
 import java.time.LocalDate;
 
-@Entity
-@Table(name = "alunos")
 public class Aluno {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_aluno")
+    // atributos
     private Long id;
-
     private String nome;
-
-    @Column(name = "data_nascimento") // defini a coluna assim para colocar em camelCase Ely!
-    private LocalDate dataNascimento;
-
+    private String dataNascimento;
     private String email;
     private String telefone;
 
@@ -43,11 +33,11 @@ public class Aluno {
         this.nome = nome;
     }
 
-    public LocalDate getDataNascimento() {
+    public String getDataNascimento() {
         return dataNascimento;
     }
 
-    public void setDataNascimento(LocalDate dataNascimento) {
+    public void setDataNascimento(String dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
 

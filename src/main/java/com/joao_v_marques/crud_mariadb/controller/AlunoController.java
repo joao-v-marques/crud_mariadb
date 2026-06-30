@@ -39,4 +39,5 @@ public class AlunoController {
     public Aluno atualizar(@PathVariable Long id, @RequestBody Aluno aluno) {
         return service.atualizar(id, aluno);
     }
+
 }

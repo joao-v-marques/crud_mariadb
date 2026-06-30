@@ -1,7 +1,7 @@
 package com.joao_v_marques.crud_mariadb.service;
 
+import com.joao_v_marques.crud_mariadb.dao.AlunoDAO;
 import com.joao_v_marques.crud_mariadb.model.Aluno;
-import com.joao_v_marques.crud_mariadb.repository.AlunoRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,40 +9,36 @@ import java.util.List;
 @Service
 public class AlunoService {
 
-    private final AlunoRepository repository;
+    private final AlunoDAO dao;
 
-    public AlunoService(AlunoRepository repository) {
-        this.repository = repository;
+    public AlunoService(AlunoDAO dao) {
+        this.dao = dao;
     }
 
     // listar todos os alunos
     public List<Aluno> listarTodos() {
-        return repository.findAll();
+        return dao.findAll();
     }
 
-    // cadastrar novo aluno
     public Aluno cadastrar(Aluno aluno) {
-        return repository.save(aluno);
+        return dao.save(aluno);
     }
 
-    // excluir aluno
     public void deletar(Long id) {
-        if (!repository.existsById(id)) {
+        if (!dao.existsById(id)) {
             throw new RuntimeException("Aluno não encontrado com o id: " + id);
         }
-
-        repository.deleteById(id);
+        dao.deleteById(id);
     }
 
-    // atualizar aluno
     public Aluno atualizar(Long id, Aluno alunoAtualizado) {
-        Aluno alunoExistente = repository.findById(id).orElseThrow(() -> new RuntimeException("Aluno não encontrado com id: " + id));
+        Aluno alunoExistente = dao.findById(id).orElseThrow(() -> new RuntimeException("Aluno não encontrado com id: " + id));
 
         alunoExistente.setNome(alunoAtualizado.getNome());
         alunoExistente.setDataNascimento(alunoAtualizado.getDataNascimento());
         alunoExistente.setEmail(alunoAtualizado.getEmail());
         alunoExistente.setTelefone(alunoAtualizado.getTelefone());
 
-        return repository.save(alunoExistente);
+        return dao.update(alunoExistente);
     }
 }
