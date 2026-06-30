@@ -33,4 +33,16 @@ public class AlunoService {
 
         repository.deleteById(id);
     }
+
+    // atualizar aluno
+    public Aluno atualizar(Long id, Aluno alunoAtualizado) {
+        Aluno alunoExistente = repository.findById(id).orElseThrow(() -> new RuntimeException("Aluno não encontrado com id: " + id));
+
+        alunoExistente.setNome(alunoAtualizado.getNome());
+        alunoExistente.setDataNascimento(alunoAtualizado.getDataNascimento());
+        alunoExistente.setEmail(alunoAtualizado.getEmail());
+        alunoExistente.setTelefone(alunoAtualizado.getTelefone());
+
+        return repository.save(alunoExistente);
+    }
 }
