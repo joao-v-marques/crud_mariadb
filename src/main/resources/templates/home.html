@@ -97,6 +97,44 @@
         </div>
     </div>
 
+    <!-- modal de edicao de aluno -->
+    <div id="modal-edicao" class="modal modal-large" hidden>
+        <div class="modal-content">
+            <h3>Editar aluno</h3>
+
+            <form id="form-edicao" autocomplete="off">
+                <input type="hidden" id="edit-id">
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="edit-nome">Nome completo</label>
+                        <input type="text" id="edit-nome" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="edit-data">Data de nascimento</label>
+                        <input type="date" id="edit-data" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="edit-email">E-mail</label>
+                        <input type="email" id="edit-email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="edit-telefone">Telefone</label>
+                        <input type="tel" id="edit-telefone" required>
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                    <button type="button" id="btn-cancelar-edicao" class="btn btn-secondary">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script th:src="@{/js/home.js}"></script>
 </body>
 </html>

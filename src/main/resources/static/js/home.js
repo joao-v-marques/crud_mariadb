@@ -1,4 +1,5 @@
 let alunoSelecionado = null;
+let alunoEditando = null;
 
 // funcao para cadstrar novo aluno
 async function cadastrarAluno() {
@@ -95,6 +96,10 @@ async function carregarAlunos() {
             btnEditar.classList.add("btn-small");
             btnEditar.classList.add("btn-primary");
 
+            btnEditar.addEventListener("click", () => {
+                abrirModalEdicao(aluno);
+            });
+
             tdAcoes.appendChild(btnExcluir);
             tdAcoes.appendChild(btnEditar);
 
@@ -151,9 +156,65 @@ function configurarModal() {
     document.getElementById("btn-confirmar-exclusao").addEventListener("click", excluirAluno);
 }
 
+// funcoes modal de edicao
+function abrirModalEdicao(aluno) {
+    alunoEditando = aluno;
+
+    document.getElementById("edit-id").value = aluno.id;
+    document.getElementById("edit-nome").value = aluno.nome;
+    document.getElementById("edit-data").value = aluno.dataNascimento;
+    document.getElementById("edit-email").value = aluno.email;
+    document.getElementById("edit-telefone").value = aluno.telefone;
+
+    document.getElementById("modal-edicao").hidden = false;
+}
+
+function fecharModalEdicao() {
+    alunoEditando = null;
+    document.getElementById("modal-edicao").hidden = true;
+}
+
+async function atualizarAluno(e) {
+    e.preventDefault();
+
+    try {
+        const data = {
+            id: document.getElementById("edit-id").value,
+            nome: document.getElementById("edit-nome").value.trim(),
+            dataNascimento: document.getElementById("edit-data").value,
+            email: document.getElementById("edit-email").value.trim(),
+            telefone: document.getElementById("edit-telefone").value.trim()
+        };
+
+        const response = await fetch(`/alunos/${data.id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        });
+
+        if (!response.ok) {
+            throw new Error("Erro ao atualizar aluno");
+        }
+
+        fecharModalEdicao();
+        await carregarAlunos();
+
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+function configurarModalEdicao() {
+    document.getElementById("btn-cancelar-edicao").addEventListener("click", fecharModalEdicao);
+    document.getElementById("form-edicao").addEventListener("submit", atualizarAluno);
+}
+
 
 document.addEventListener("DOMContentLoaded", () => {
     carregarAlunos();
     cadastrarAluno();
     configurarModal();
+    configurarModalEdicao();
 })
